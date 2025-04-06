@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: borrowing-service
+
+  config:
+    import=configserver:http://localhost:8888:server:
+
+server:
+  port: 8090

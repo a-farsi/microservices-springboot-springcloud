@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: proxy-service
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: r1
+#          uri: lb://BOOK-SERVICE
+#          predicates:
+#            Path= /books/**
+#        - id: r2
+#          uri: lb://BORROWING-SERVICE
+#          predicates:
+#            Path= /borrows/**
+server:
+  port: 9999
