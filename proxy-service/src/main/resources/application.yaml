@@ -1,6 +1,11 @@
 spring:
   application:
     name: proxy-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
 #spring:
 #  cloud:
 #    gateway:

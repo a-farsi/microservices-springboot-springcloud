@@ -3,6 +3,9 @@ spring:
     name: book-service
   config:
     import: optional:configserver:http://localhost:8888
+
+  jackson:
+    default-property-inclusion: non_null
 management:
   endpoints:
     web:
@@ -10,3 +13,4 @@ management:
         include: "*"
 server:
   port: 8082
+

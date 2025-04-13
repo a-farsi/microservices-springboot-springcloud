@@ -1,5 +1,6 @@
 package org.afa.bookservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ import lombok.ToString;
 public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@JsonProperty("id")
 	private Long id;
 
 	private String title;
