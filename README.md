@@ -163,7 +163,7 @@ We notice that to access a microservice via the gateway service, we need to spec
 
 * To access the list of books through the gateway-service 
 
-We type : _localhost:8888/book-service/books_
+We type this URL : _http://localhost:8888/book-service/books_
 
 <p align="center">
 <img src="figures/5.call-book-service-through-gateway.png" width=100%>
@@ -174,7 +174,7 @@ Figure 9: Display the list of books when passing by the gateway-service.
 
 * To access the list of customers through the gateway-service
 
-We type : _localhost:8888/customer-service/customers_
+We type this URL : _http://localhost:8888/customer-service/customers_
 
 <p align="center">
 <img src="figures/5.call-customer-service-through-gateway.png" width=100%>
@@ -184,7 +184,7 @@ Figure 10: Display the list of customers when passing by the gateway-service.
 </p>
 
 * To access the list of borrowing records through the gateway-service
-We type : _localhost:8888/borrowing-service/borrows_
+We type this URL : _http://localhost:8888/borrowing-service/borrows_
 
 <p align="center">
 <img src="figures/6.call-borrowing-service-through-gateway.png" width=100%>
