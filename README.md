@@ -30,7 +30,7 @@ The startup order of the following application microservices is not critical: cu
 Finally, we launch the gateway-service.
 
 
-### How to interact with microservices:
+### How to Interact with Microservices:
 
 -A user connects via the graphical interface or with a REST client to perform CRUD operations on our application.
 
@@ -38,14 +38,33 @@ Finally, we launch the gateway-service.
 
 -The gateway then queries the registration management service, passing the name of the target microservice to request its IP address and port.
 
--The register-service responds to the gateway's request by sending the IP address and port of the requested microservice.
+-The discovery-service responds to the gateway's request by sending the IP address and port of the requested microservice.
 
 -Finally, the gateway forwards the user request to the microservice using the IP address and the port.
+
+
+### Book Borrowing System - A Real Scenario
+
+In a practical library book borrowing system, the librarian adds newly arrived books to the database each time the library receives a new shipment.
+When a new customer wants to borrow books, the librarian first creates an account for the customer by calling the customer-service.
+Then, the librarian creates a borrowing record by calling the borrowing-service, which interacts with both the customer-service and the book-service to establish an association between the customer and the selected books.
 
 ### Database Backup Strategy: 
 We have chosen to separate the database so that each microservice has its own. This choice makes data integrity control more complex, which becomes the responsibility of the designer and must be managed at the service layers. We should note that in distributed databases, relationships between data that would traditionally be enforced by foreign keys must be handled at the application level instead.
 
 ### implementation of microservice
+
+For simplicity, and to facilitate testing of our microservices, we insert some sample data at application startup using the _CommandLineRunner_ bean.
+
+```#Java
+@Bean
+CommandLineRunner start(/*Inject needed dependencies here*/) {
+    // Do some stuff here
+}
+
+```
+
+Here is a technical description of how to implement each microservice and how to test it directly using its IP address and port.
 
 * The customer-service :
 We implement this service using a three-layer architecture: controller, service, and DAO.
@@ -68,7 +87,7 @@ We implement a _Book_ entity, a controller annotated with _@RestController_, a s
 <img src="figures/2.list_of_all_books.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Display the list of all saved books 
+Figure 3: Display the list of all saved books 
 </p>
 
 * The config-service :
@@ -80,26 +99,26 @@ Here is the url of the remote git repository that we use to gather all configura
 <img src="figures/2.config-of-application-yaml-file.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Display the configuration in the application.yaml file  
+Figure 4: Display the configuration in the application.yaml file  
 </p>
 
 <p align="center">
-<img src="figures/2.config-of-register-service-yaml-file.png" width=100%>
+<img src="figures/2.config-of-discovery-service-yaml-file.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Display the configuration in the register-service.yaml file  
+Figure 5: Display the configuration in the discovery-service.yaml file  
 </p>
 
 
 
-* The register-service : 
+* The discovery-service : 
 we use Spring Cloud Netflix Eureka Server
 
 <p align="center">
-<img src="figures/4.register-service.png" width=100%>
+<img src="figures/4.discovery-service.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Display the interface of the register-service  
+Figure 6: Display the interface of the discovery-service  
 </p>
 
 
@@ -124,7 +143,7 @@ Therefore, we will:
 <img src="figures/2.class_diagram.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Class diagram of the borrowing-service 
+Figure 7: Class diagram of the borrowing-service 
 </p>
 
 
@@ -133,11 +152,44 @@ Figure 2: Class diagram of the borrowing-service
 <img src="figures/3.display-all-borrow-objects.png" width=100%>
 </p>
 <p align="center">
-Figure 2: Display all borrows 
+Figure 8: Display all borrowing records.
 </p>
 
 
+The following figures show the data retrieved when accessing our microservices through the gateway.
 
-Parler de la configuration dans …
+We notice that to access a microservice via the gateway service, we need to specify the name of the targeted service. It is then the responsibility of the gateway-service and the discovery-service to route the request to the appropriate microservice.
 
-bootstrap.yaml, nous spécifions le nom du service et le port sur lequel l’application est joignable. Nous précisons le url du serveur d’enregistrement Eureka et l’URL vers le repot gît dans lequel il y a le complément de configuration à télécharger pour pouvoir lancer le microservice convenablement.
+
+* To access the list of books through the gateway-service 
+
+We type : _localhost:8888/book-service/books_
+
+<p align="center">
+<img src="figures/5.call-book-service-through-gateway.png" width=100%>
+</p>
+<p align="center">
+Figure 9: Display the list of books when passing by the gateway-service.
+</p>
+
+* To access the list of customers through the gateway-service
+
+We type : _localhost:8888/customer-service/customers_
+
+<p align="center">
+<img src="figures/5.call-customer-service-through-gateway.png" width=100%>
+</p>
+<p align="center">
+Figure 10: Display the list of customers when passing by the gateway-service.
+</p>
+
+* To access the list of borrowing records through the gateway-service
+We type : _localhost:8888/borrowing-service/borrows_
+
+<p align="center">
+<img src="figures/6.call-borrowing-service-through-gateway.png" width=100%>
+</p>
+<p align="center">
+Figure 11: Display the list of borrowing records when passing by the gateway-service.
+</p>
+
